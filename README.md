@@ -87,9 +87,6 @@ The project follows a modular ROS 2 architecture divided into three independent 
 
 ```
 
-
-```
-
 ### Execution Sequence
 
 1. The bringup package loads the system configuration.
