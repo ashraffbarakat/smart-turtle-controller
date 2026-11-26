@@ -85,9 +85,9 @@ The project follows a modular ROS 2 architecture divided into three independent 
 </p>
 
 
-```
 
-### Execution Sequence
+
+## Execution Sequence
 
 1. The bringup package loads the system configuration.
 2. The launch file starts the Turtlesim simulator and the required ROS 2 nodes.
