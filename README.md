@@ -18,11 +18,6 @@
 
 ---
 
-<p align="center">
-  <img src="rosgraph.png" width="100%">
-</p>
-
-
 
 
 ## 📌 Overview
@@ -85,6 +80,11 @@ The project follows a modular ROS 2 architecture divided into three independent 
 </p>
 
 
+<p align="center">
+  <img src="rosgraph.png" width="100%">
+</p>
+
+
 ```
 
 ### Execution Sequence
@@ -131,15 +131,24 @@ Supported movement patterns:
 
 **Circle**
 
-![Circle Simulation](circle_simulation.png)
+![Circle Simulation]
+<p align="center">
+  <img src="circle_simulation.png" width="100%">
+</p>
 
 **Square**
 
-![Square Simulation](square_simulation.png)
+![Square Simulation]
+<p align="center">
+  <img src="square_simulation.png" width="100%">
+</p>
 
 **Spiral**
 
-![Spiral Simulation](spiral_simulation.png)
+![Spiral Simulation]
+<p align="center">
+  <img src="spiral_simulation.png" width="100%">
+</p>
 
 ### 2. Smart Turtle Control Panel
 
