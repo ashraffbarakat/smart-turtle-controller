@@ -18,21 +18,28 @@
 
 ---
 
+<p align="center">
+  <img src="rosgraph.png" width="100%">
+</p>
+
+
+
+
 ## 📌 Overview
 
-**Smart Turtle Controller** is a modular robotics project built using **ROS 2 Jazzy** and **Python**, designed to demonstrate practical robot control and communication through the Turtlesim simulation environment.
+**Smart Turtle Controller** is a modular and interactive robotics control system developed using ROS 2 Jazzy and Python. It demonstrates how to design and integrate multiple ROS 2 nodes and packages to control a simulated robot through a structured communication architecture.
 
-Instead of relying on hardcoded movement commands, the system uses a distributed architecture consisting of multiple ROS 2 nodes and packages that communicate through custom messages and ROS 2 communication mechanisms.
+The project uses the Turtlesim simulation environment, allowing users to control a virtual turtle and generate different geometric trajectories without manually writing movement commands.
 
-The system allows users to control a simulated turtle and generate different geometric motion patterns, including:
+The system supports three movement patterns:
 
 - **Circle:** Continuous circular movement.
-- **Square:** Four-sided geometric movement.
+- **Square:** Sequential movement along four sides.
 - **Spiral:** Expanding spiral trajectory.
 
-Users can configure movement parameters through YAML configuration files or interact with the system dynamically using a graphical interface built with Tkinter.
+Users can dynamically change the movement pattern and turtle speed through a graphical interface or command-based control.
 
-The project demonstrates how to design, organize, and integrate multiple ROS 2 components into a unified robotic control system.
+The system also includes an automatic reset mechanism that periodically clears the simulation and returns the turtle to its initial position.
 
 ---
 
@@ -42,12 +49,13 @@ The main objectives of this project are:
 
 - Understand ROS 2 workspace and package organization.
 - Implement communication between independent ROS 2 nodes.
-- Create and use custom ROS 2 message interfaces.
-- Apply parameter-based configuration using YAML.
-- Develop motion-control logic for geometric trajectories.
-- Build a graphical user interface for real-time interaction.
-- Automate system startup using ROS 2 Launch.
-- Monitor and debug ROS 2 communication using RQT tools.
+- Design and integrate custom ROS 2 message interfaces.
+- Apply parameter-based configuration using YAML files.
+- Develop motion-control algorithms for geometric trajectories.
+- Implement dynamic movement and speed control.
+- Build a graphical user interface using Tkinter.
+- Automate multi-node execution using ROS 2 Launch.
+- Monitor and debug communication using RQT tools.
 
 ---
 
@@ -57,20 +65,420 @@ The main objectives of this project are:
 |---|---|
 | Custom Messages | Dedicated communication interface for turtle commands. |
 | Shape-Based Control | Supports Circle, Square, and Spiral trajectories. |
-| Dynamic Speed Control | Adjusts movement speed through the GUI. |
-| Command Publisher | Publishes configured movement commands periodically. |
-| Automated Reset | Clears the simulation and resets the turtle periodically. |
-| Interactive GUI | Tkinter-based graphical control interface. |
-| YAML Configuration | Configure default shape and speed without modifying source code. |
-| Launch Integration | Start the complete system using a unified launch file. |
-| ROS 2 Monitoring | Inspect communication and node relationships using RQT. |
+| Dynamic Speed Control | Adjusts movement speed from 0.5 to 5.0. |
+| Command Publisher | Publishes movement commands periodically at 1 Hz. |
+| Motion Controller | Calculates linear and angular velocities at 10 Hz. |
+| Automatic Reset | Clears the simulation every 10 seconds. |
+| Interactive GUI | Tkinter-based graphical control panel. |
+| YAML Configuration | Configures default shape and speed. |
+| Unified Launch | Starts the complete system through one launch command. |
+| ROS 2 Monitoring | Supports communication visualization using RQT. |
 
 ---
 
 ## 🏗️ System Architecture
 
-The project follows a modular architecture divided into three ROS 2 packages.
+The project follows a modular ROS 2 architecture divided into three independent packages.
 
 <p align="center">
-  <img src="rosgraph.png" width="100%">
+  <img src="flowchart.jpeg" width="100%">
+</p>
+
+
+```
+
+### Package 1: `smart_turtle_interface`
+
+Responsible for defining custom communication interfaces used by the system.
+
+**Custom Message:**
+
+`TurtleCommand.msg`
+
+The message contains two main fields:
+
+- `command`: Specifies the requested movement pattern.
+- `speed`: Defines the requested movement speed.
+
+This interface provides a structured way for different ROS 2 nodes to exchange movement commands.
+
+### Package 2: `smart_turtle_py`
+
+Contains the main control logic and graphical interface.
+
+It consists of four ROS 2 nodes:
+
+**1. Command Publisher**
+
+- Reads the default shape and speed from YAML configuration.
+- Publishes movement commands periodically at 1 Hz.
+- Provides the command source for the turtle controller.
+- Receives updated control selections from the GUI.
+
+**2. Turtle Controller**
+
+The main motion-control component.
+
+Responsibilities:
+
+- Receives incoming custom turtle commands.
+- Identifies the requested geometric trajectory.
+- Calculates the appropriate linear and angular velocities.
+- Publishes velocity commands to the Turtlesim simulator.
+- Runs the motion-control loop at 10 Hz for smooth movement.
+
+Supported trajectories:
+
+| Pattern | Description |
+|---|---|
+| Circle | Continuous circular movement |
+| Square | Four sequential sides |
+| Spiral | Expanding spiral movement |
+
+**3. Reset Node**
+
+Responsible for automatically resetting the simulation.
+
+- Runs periodically in the background.
+- Communicates with the Turtlesim services `/reset` and `/clear`.
+- Clears the previously drawn trajectory.
+- Returns the turtle to its initial state.
+- Repeats the reset cycle every 10 seconds.
+
+**4. GUI Controller**
+
+Provides an interactive graphical interface developed using Tkinter.
+
+Main controls:
+
+- Circle selection button.
+- Square selection button.
+- Spiral selection button.
+- Speed adjustment slider.
+
+The interface allows users to dynamically change the movement pattern and speed while the system is running.
+
+### Package 3: `smart_turtle_bringup`
+
+Responsible for integrating and launching the complete system.
+
+It contains:
+
+- ROS 2 launch files.
+- YAML configuration files.
+- Default movement parameters.
+- System startup configuration.
+
+The bringup package allows the user to start the simulator and required control components through a single launch command.
+
+---
+
+## 🔄 Communication Workflow
+
+The system uses ROS 2 communication mechanisms to connect its independent components.
+
+```mermaid
+flowchart TD
+    A["YAML Configuration"] --> B["Command Publisher"]
+    C["Tkinter GUI"] -->|"Shape & Speed Updates"| B
+    B -->|"TurtleCommand"| D["Turtle Controller"]
+    D -->|"Velocity Commands"| E["Turtlesim"]
+    F["Reset Node"] -->|"/reset"| E
+    F -->|"/clear"| E
+```
+
+### Execution Sequence
+
+1. The bringup package loads the system configuration.
+2. The launch file starts the Turtlesim simulator and the required ROS 2 nodes.
+3. The command publisher reads the default movement parameters.
+4. The GUI allows the user to select a shape and adjust its speed.
+5. The command publisher sends the requested movement command.
+6. The turtle controller processes the command and calculates the required velocities.
+7. Turtlesim executes the requested trajectory.
+8. The reset node periodically clears the simulation and resets the turtle.
+
+---
+
+## 📊 Technical Specifications
+
+| Parameter | Value |
+|---|---|
+| ROS 2 Distribution | Jazzy |
+| Operating System | Ubuntu 24.04 LTS |
+| Programming Language | Python |
+| Interface Definition | ROS 2 Custom Message |
+| GUI Framework | Tkinter |
+| Simulation Environment | Turtlesim |
+| Command Publishing Rate | 1 Hz |
+| Controller Update Rate | 10 Hz |
+| Automatic Reset Interval | 10 seconds |
+| Minimum Speed | 0.5 |
+| Maximum Speed | 5.0 |
+| Build System | Colcon |
+
+---
+
+## 🖥️ Simulation & GUI Demonstration
+
+The project provides two main graphical windows during execution.
+
+### 1. Turtlesim Simulation
+
+The simulation window displays the turtle's movement and the trajectory drawn on the screen.
+
+Supported movement patterns:
+
+**Circle**
+
+![Circle Simulation](docs/images/circle_simulation.png)
+
+**Square**
+
+![Square Simulation](docs/images/square_simulation.png)
+
+**Spiral**
+
+![Spiral Simulation](docs/images/spiral_simulation.png)
+
+### 2. Smart Turtle Control Panel
+
+The graphical interface provides an interactive way to control the simulation.
+
+Main controls:
+
+- Green button: Circle.
+- Blue button: Square.
+- Orange button: Spiral.
+- Speed slider: Adjusts movement speed between 0.5 and 5.0.
+
+![GUI Interface](docs/images/gui_interface.png)
+
+---
+
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| ROS 2 Jazzy | Robotics middleware and node communication |
+| Ubuntu 24.04 | Development environment |
+| Python 3 | Control logic and GUI implementation |
+| CMake | Custom message package build configuration |
+| Tkinter | Graphical user interface |
+| Turtlesim | Robot simulation |
+| Custom ROS 2 Messages | Structured command exchange |
+| YAML | Configuration management |
+| Colcon | Workspace build system |
+| RQT | ROS 2 monitoring and debugging |
+
+---
+
+## ⚙️ Installation & Requirements
+
+### Prerequisites
+
+Make sure the following components are installed:
+
+- Ubuntu 24.04 LTS.
+- ROS 2 Jazzy.
+- Python 3.
+- Colcon.
+- Turtlesim.
+- Tkinter.
+
+### 1. Install Dependencies
+
+```bash
+sudo apt update
+
+sudo apt install ros-jazzy-turtlesim \
+                 python3-tk \
+                 python3-colcon-common-extensions \
+                 ros-jazzy-rqt \
+                 ros-jazzy-rqt-graph
+```
+
+### 2. Create the ROS 2 Workspace
+
+```bash
+mkdir -p ~/smart_turtle_ws/src
+
+cd ~/smart_turtle_ws/src
+```
+
+### 3. Clone the Repository
+
+```bash
+git clone <YOUR_REPOSITORY_URL>
+```
+
+Make sure the three ROS 2 packages are located inside the workspace `src` directory.
+
+### 4. Install Package Dependencies
+
+```bash
+cd ~/smart_turtle_ws
+
+source /opt/ros/jazzy/setup.bash
+
+rosdep update
+
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+---
+
+## 🔨 Build Instructions
+
+Build the workspace using Colcon:
+
+```bash
+cd ~/smart_turtle_ws
+
+source /opt/ros/jazzy/setup.bash
+
+colcon build --symlink-install
+```
+
+After a successful build, source the workspace:
+
+```bash
+source install/setup.bash
+```
+
+---
+
+## 🚀 Running the Project
+
+After building the workspace, source both ROS 2 and the local workspace:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+
+source ~/smart_turtle_ws/install/setup.bash
+```
+
+Launch the complete system:
+
+```bash
+ros2 launch smart_turtle_bringup smart_turtle.launch.py
+```
+
+The launch file starts the simulation and the required control components, including the graphical interface.
+
+The user can then select the desired movement pattern and adjust the speed through the GUI.
+
+---
+
+## ⚙️ Configuration
+
+The project uses YAML configuration files to define default movement parameters.
+
+The configuration is managed inside:
+
+```text
+smart_turtle_bringup/config/turtle_params.yaml
+```
+
+The configured parameters allow users to customize the default movement behavior without modifying the Python source code.
+
+---
+
+## 📈 Monitoring & Debugging with RQT
+
+ROS 2 provides several tools for monitoring and debugging communication between nodes.
+
+### View the ROS 2 Graph
+
+```bash
+rqt_graph
+```
+
+Visualizes the relationships between ROS 2 nodes and topics.
+
+
+### List Active Nodes
+
+```bash
+ros2 node list
+```
+
+### List Available Topics
+
+```bash
+ros2 topic list
+```
+
+### Inspect Topic Information
+
+```bash
+ros2 topic info <topic_name>
+```
+
+### Monitor Topic Messages
+
+```bash
+ros2 topic echo <topic_name>
+```
+
+### List Available Services
+
+```bash
+ros2 service list
+```
+
+These tools help visualize communication, inspect active components, and troubleshoot the system.
+
+---
+
+## 📚 ROS 2 Concepts Demonstrated
+
+This project provides practical implementation of the following ROS 2 concepts:
+
+| Concept | Application |
+|---|---|
+| ROS 2 Packages | Modular software organization |
+| Nodes | Independent control components |
+| Topics | Inter-node communication |
+| Custom Messages | Structured turtle command interface |
+| Parameters | Configurable movement settings |
+| Services | Simulation reset and clearing |
+| Launch Files | Multi-node system startup |
+| YAML | Configuration management |
+| RQT | Communication visualization and debugging |
+
+---
+
+## 🔮 Future Improvements
+
+Potential future developments include:
+
+- Adding more geometric movement patterns.
+- Improving trajectory accuracy.
+- Supporting multiple simulated turtles.
+- Adding more advanced GUI controls.
+- Implementing configurable reset intervals.
+- Adding live movement statistics.
+- Extending the controller architecture to physical robotic platforms.
+
+---
+
+## 👨‍💻 Author
+
+**Ashraf Ahmed Barakat**
+
+Mechatronics Engineering Student
+
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+See the [LICENSE](LICENSE) file for details.
+
+---
+
+<p align="center">
+  <b>Smart Turtle Controller</b><br>
+  Exploring Modular Robotics Development with ROS 2.
 </p>
