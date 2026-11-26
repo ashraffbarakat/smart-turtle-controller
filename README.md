@@ -129,23 +129,26 @@ The simulation window displays the turtle's movement and the trajectory drawn on
 
 Supported movement patterns:
 
+
 **Circle**
 
-![Circle Simulation]
+
 <p align="center">
   <img src="circle_simulation.png" width="50%">
 </p>
 
+
 **Square**
 
-![Square Simulation]
+
 <p align="center">
   <img src="square_simulation.png" width="50%">
 </p>
 
+
 **Spiral**
 
-![Spiral Simulation]
+
 <p align="center">
   <img src="spiral_simulation.png" width="50%">
 </p>
