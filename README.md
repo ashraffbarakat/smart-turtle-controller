@@ -71,19 +71,6 @@ The main objectives of this project are:
 
 The project follows a modular architecture divided into three ROS 2 packages.
 
-```text
-                  SMART TURTLE CONTROLLER
-                           |
-          +----------------+----------------+
-          |                |                |
-          v                v                v
-+------------------+ +----------------+ +-------------------+
-| smart_turtle_    | | smart_turtle_   | | smart_turtle_     |
-| interface        | | py             | | bringup           |
-|                  | |                | |                   |
-| Custom Messages  | | Control Nodes  | | Launch Files      |
-| TurtleCommand    | | GUI Controller | | YAML Configuration|
-+------------------+ +----------------+ +-------------------+
-                           |
-                           v
-                  ROS
+<p align="center">
+  <img src="rosgraph.png" width="100%">
+</p>
