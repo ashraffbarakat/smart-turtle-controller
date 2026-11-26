@@ -1,42 +1,86 @@
-# Smart Turtle Controller
+# 🐢 Smart Turtle Controller
 
-A modular ROS 2-based robotics project that demonstrates structured robot control and inter-package communication using Turtlesim.
+<p align="center">
+  <b>A Modular ROS 2-Based Robot Control System Using Turtlesim</b>
+</p>
 
-The system allows users to control a simulated turtle and draw different geometric shapes, including circles, squares, and spirals, through configurable commands and an interactive graphical interface.
+<p align="center">
+  <img src="https://img.shields.io/badge/ROS_2-Jazzy-blue?logo=ros" />
+  <img src="https://img.shields.io/badge/Ubuntu-24.04-E95420?logo=ubuntu&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/GUI-Tkinter-green" />
+  <img src="https://img.shields.io/badge/Build-Colcon-orange" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow" />
+</p>
 
-Built with **ROS 2 Jazzy**, **Python**, and **Tkinter**, the project demonstrates essential ROS 2 concepts through a practical multi-package architecture.
+---
 
-### Key Features
+## 📌 Overview
 
-- Custom ROS 2 message interfaces.
-- Shape-based motion control (Circle, Square, Spiral).
-- Configurable linear and angular velocities.
-- Periodic command publishing.
-- Automated simulation reset.
-- Interactive Tkinter GUI.
-- YAML-based configuration.
-- Unified system startup using ROS 2 Launch.
-- ROS 2 communication monitoring using RQT.
+**Smart Turtle Controller** is a modular robotics project built using **ROS 2 Jazzy** and **Python**, designed to demonstrate practical robot control and communication through the Turtlesim simulation environment.
 
-### Technology Stack
+Instead of relying on hardcoded movement commands, the system uses a distributed architecture consisting of multiple ROS 2 nodes and packages that communicate through custom messages and ROS 2 communication mechanisms.
 
-- ROS 2 Jazzy
-- Ubuntu 24.04 LTS
-- Python
-- Tkinter
-- Turtlesim
-- Colcon
-- YAML
-- RQT
+The system allows users to control a simulated turtle and generate different geometric motion patterns, including:
 
-### Project Architecture
+- **Circle:** Continuous circular movement.
+- **Square:** Four-sided geometric movement.
+- **Spiral:** Expanding spiral trajectory.
 
-The system consists of three ROS 2 packages:
+Users can configure movement parameters through YAML configuration files or interact with the system dynamically using a graphical interface built with Tkinter.
 
-1. `smart_turtle_interface` – Defines custom communication messages.
-2. `smart_turtle_py` – Implements the control logic and GUI nodes.
-3. `smart_turtle_bringup` – Manages configuration and system launch.
+The project demonstrates how to design, organize, and integrate multiple ROS 2 components into a unified robotic control system.
 
-### License
+---
 
-This project is licensed under the MIT License.
+## 🎯 Project Objectives
+
+The main objectives of this project are:
+
+- Understand ROS 2 workspace and package organization.
+- Implement communication between independent ROS 2 nodes.
+- Create and use custom ROS 2 message interfaces.
+- Apply parameter-based configuration using YAML.
+- Develop motion-control logic for geometric trajectories.
+- Build a graphical user interface for real-time interaction.
+- Automate system startup using ROS 2 Launch.
+- Monitor and debug ROS 2 communication using RQT tools.
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| Custom Messages | Dedicated communication interface for turtle commands. |
+| Shape-Based Control | Supports Circle, Square, and Spiral trajectories. |
+| Dynamic Speed Control | Adjusts movement speed through the GUI. |
+| Command Publisher | Publishes configured movement commands periodically. |
+| Automated Reset | Clears the simulation and resets the turtle periodically. |
+| Interactive GUI | Tkinter-based graphical control interface. |
+| YAML Configuration | Configure default shape and speed without modifying source code. |
+| Launch Integration | Start the complete system using a unified launch file. |
+| ROS 2 Monitoring | Inspect communication and node relationships using RQT. |
+
+---
+
+## 🏗️ System Architecture
+
+The project follows a modular architecture divided into three ROS 2 packages.
+
+```text
+                  SMART TURTLE CONTROLLER
+                           |
+          +----------------+----------------+
+          |                |                |
+          v                v                v
++------------------+ +----------------+ +-------------------+
+| smart_turtle_    | | smart_turtle_   | | smart_turtle_     |
+| interface        | | py             | | bringup           |
+|                  | |                | |                   |
+| Custom Messages  | | Control Nodes  | | Launch Files      |
+| TurtleCommand    | | GUI Controller | | YAML Configuration|
++------------------+ +----------------+ +-------------------+
+                           |
+                           v
+                  ROS
