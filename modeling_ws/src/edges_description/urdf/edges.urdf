@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot name="edges_robot">
+
+
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <material name="orange">
+    <color rgba="1 0.5 0 1"/>
+  </material>
+
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.7 0.5 0.3"/>
+      </geometry>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <material name="black"/>
+    </visual>
+  </link>
+
+
+  <joint name="base_continuous_link" type="continuous">
+    <parent link="base_link"/>
+    <child link="continuous_link"/>
+    <origin xyz="-0.175 0.25 0" rpy="-1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+
+  <link name="continuous_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.04" rpy="0 0 1"/>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+
+  <joint name="base_continuous_link_2" type="continuous">
+    <parent link="base_link"/>
+    <child link="continuous_link_2"/>
+    <origin xyz="-0.175 -0.33 0" rpy="-1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+
+  <link name="continuous_link_2">
+    <visual>
+      <geometry>
+        <cylinder length="0.08" radius="0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.04" rpy="0 0 1"/>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+
+</robot>

@@ -1,0 +1,9 @@
+mkdir -p ~/modeling_ws/src/obstacle_avoidance_controller/config
+cat << 'EOF' > ~/modeling_ws/src/obstacle_avoidance_controller/config/obstacle_avoidance.yaml
+obstacle_avoidance_node:
+  ros__parameters:
+    safe_distance: 0.85
+    linear_speed: 0.45
+    angular_speed: 0.9
+    front_angle_deg: 30.0
+EOF

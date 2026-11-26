@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="continuous_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="continuous_link_2">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="caster_link">
+    <material>Gazebo/Orange</material>
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+  </gazebo>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-diff-drive-system"
+      name="gz::sim::systems::DiffDrive">
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_footprint</child_frame_id>
+      
+      <render_engine>ogre2</render_engine>
+
+      <left_joint>base_continuous_link</left_joint>
+      <right_joint>base_continuous_link_2</right_joint>
+      
+      <wheel_separation>0.5</wheel_separation>
+      <wheel_radius>0.1</wheel_radius>
+
+      <odom_publish_frequency>30</odom_publish_frequency>
+
+      <topic>cmd_vel</topic>
+      <odom_topic>odometry</odom_topic>
+      <tf_topic>/tf</tf_topic>
+
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-state-publisher-system"
+      name="gz::sim::systems::JointStatePublisher">
+      <joint_name>base_continuous_link</joint_name>
+      <joint_name>base_continuous_link_2</joint_name>
+      <topic>joint_states</topic>
+    </plugin>
+  </gazebo>
+
+</robot>
