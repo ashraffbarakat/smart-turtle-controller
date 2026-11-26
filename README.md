@@ -1,4 +1,7 @@
 # 🐢 Smart Turtle Controller
+<p align="center">
+  <img src="cover.jpeg" width="100%">
+</p>
 
 <p align="center">
   <b>A Modular ROS 2-Based Robot Control System Using Turtlesim</b>
