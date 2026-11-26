@@ -164,7 +164,7 @@ Main controls:
 - Orange button: Spiral.
 - Speed slider: Adjusts movement speed between 0.5 and 5.0.
 
-![GUI Interface]
+--> GUI Interface <--
 <p align="center">
   <img src="sc1.png" width="75%">
 </p>
