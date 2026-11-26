@@ -76,7 +76,7 @@ The main objectives of this project are:
 The project follows a modular ROS 2 architecture divided into three independent packages.
 
 <p align="center">
-  <img src="flowchart.jpeg" width="100%">
+  <img src="flowchart.jpeg" width="50%">
 </p>
 
 
@@ -133,21 +133,21 @@ Supported movement patterns:
 
 ![Circle Simulation]
 <p align="center">
-  <img src="circle_simulation.png" width="100%">
+  <img src="circle_simulation.png" width="50%">
 </p>
 
 **Square**
 
 ![Square Simulation]
 <p align="center">
-  <img src="square_simulation.png" width="100%">
+  <img src="square_simulation.png" width="50%">
 </p>
 
 **Spiral**
 
 ![Spiral Simulation]
 <p align="center">
-  <img src="spiral_simulation.png" width="100%">
+  <img src="spiral_simulation.png" width="50%">
 </p>
 
 ### 2. Smart Turtle Control Panel
@@ -161,7 +161,11 @@ Main controls:
 - Orange button: Spiral.
 - Speed slider: Adjusts movement speed between 0.5 and 5.0.
 
-![GUI Interface](sc1.png)
+![GUI Interface]
+<p align="center">
+  <img src="sc1.png" width="75%">
+</p>
+
 
 ---
 
