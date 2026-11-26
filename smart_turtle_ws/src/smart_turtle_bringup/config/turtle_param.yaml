@@ -1,0 +1,4 @@
+command_publisher:
+  ros__parameters:
+    command: "circle"
+    speed: 1.0
