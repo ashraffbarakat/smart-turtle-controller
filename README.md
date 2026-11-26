@@ -87,104 +87,7 @@ The project follows a modular ROS 2 architecture divided into three independent 
 
 ```
 
-### Package 1: `smart_turtle_interface`
 
-Responsible for defining custom communication interfaces used by the system.
-
-**Custom Message:**
-
-`TurtleCommand.msg`
-
-The message contains two main fields:
-
-- `command`: Specifies the requested movement pattern.
-- `speed`: Defines the requested movement speed.
-
-This interface provides a structured way for different ROS 2 nodes to exchange movement commands.
-
-### Package 2: `smart_turtle_py`
-
-Contains the main control logic and graphical interface.
-
-It consists of four ROS 2 nodes:
-
-**1. Command Publisher**
-
-- Reads the default shape and speed from YAML configuration.
-- Publishes movement commands periodically at 1 Hz.
-- Provides the command source for the turtle controller.
-- Receives updated control selections from the GUI.
-
-**2. Turtle Controller**
-
-The main motion-control component.
-
-Responsibilities:
-
-- Receives incoming custom turtle commands.
-- Identifies the requested geometric trajectory.
-- Calculates the appropriate linear and angular velocities.
-- Publishes velocity commands to the Turtlesim simulator.
-- Runs the motion-control loop at 10 Hz for smooth movement.
-
-Supported trajectories:
-
-| Pattern | Description |
-|---|---|
-| Circle | Continuous circular movement |
-| Square | Four sequential sides |
-| Spiral | Expanding spiral movement |
-
-**3. Reset Node**
-
-Responsible for automatically resetting the simulation.
-
-- Runs periodically in the background.
-- Communicates with the Turtlesim services `/reset` and `/clear`.
-- Clears the previously drawn trajectory.
-- Returns the turtle to its initial state.
-- Repeats the reset cycle every 10 seconds.
-
-**4. GUI Controller**
-
-Provides an interactive graphical interface developed using Tkinter.
-
-Main controls:
-
-- Circle selection button.
-- Square selection button.
-- Spiral selection button.
-- Speed adjustment slider.
-
-The interface allows users to dynamically change the movement pattern and speed while the system is running.
-
-### Package 3: `smart_turtle_bringup`
-
-Responsible for integrating and launching the complete system.
-
-It contains:
-
-- ROS 2 launch files.
-- YAML configuration files.
-- Default movement parameters.
-- System startup configuration.
-
-The bringup package allows the user to start the simulator and required control components through a single launch command.
-
----
-
-## 🔄 Communication Workflow
-
-The system uses ROS 2 communication mechanisms to connect its independent components.
-
-```mermaid
-flowchart TD
-    A["YAML Configuration"] --> B["Command Publisher"]
-    C["Tkinter GUI"] -->|"Shape & Speed Updates"| B
-    B -->|"TurtleCommand"| D["Turtle Controller"]
-    D -->|"Velocity Commands"| E["Turtlesim"]
-    F["Reset Node"] -->|"/reset"| E
-    F -->|"/clear"| E
 ```
 
 ### Execution Sequence
@@ -231,15 +134,15 @@ Supported movement patterns:
 
 **Circle**
 
-![Circle Simulation](docs/images/circle_simulation.png)
+![Circle Simulation](circle_simulation.png)
 
 **Square**
 
-![Square Simulation](docs/images/square_simulation.png)
+![Square Simulation](square_simulation.png)
 
 **Spiral**
 
-![Spiral Simulation](docs/images/spiral_simulation.png)
+![Spiral Simulation](spiral_simulation.png)
 
 ### 2. Smart Turtle Control Panel
 
@@ -252,7 +155,7 @@ Main controls:
 - Orange button: Spiral.
 - Speed slider: Adjusts movement speed between 0.5 and 5.0.
 
-![GUI Interface](docs/images/gui_interface.png)
+![GUI Interface](sc1.png)
 
 ---
 
